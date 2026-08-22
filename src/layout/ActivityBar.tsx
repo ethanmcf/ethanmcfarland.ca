@@ -32,7 +32,7 @@ function ActivityBarIcon({
   children: React.ReactNode;
 }) {
   const className =
-    "flex h-12 w-12 items-center justify-center text-muted hover:text-white";
+    "relative flex h-12 w-12 items-center justify-center text-muted hover:text-white/40";
 
   if (href) {
     return (
@@ -58,6 +58,9 @@ function ActivityBarIcon({
       aria-pressed={pressed}
       className={className}
     >
+      {pressed && (
+        <span className="absolute top-[-10px] bottom-[0px] left-0 w-[2px] bg-[#7ebcfb]" />
+      )}
       {children}
     </button>
   );
@@ -68,14 +71,14 @@ export default function ActivityBar({
   onToggleSidebar,
 }: ActivityBarProps) {
   return (
-    <nav className="flex h-full w-12 shrink-0 flex-col justify-between border-r border-[#2b2b2b] bg-panel">
+    <nav className="flex h-full w-12 shrink-0 flex-col justify-between bg-panel">
       <div>
         <ActivityBarIcon
           label="Explorer"
           pressed={sidebarOpen}
           onClick={onToggleSidebar}
         >
-          <FontAwesomeIcon icon={faFile} className="text-[22px]" />
+          <FontAwesomeIcon icon={faFile} className="text-[26px]" />
         </ActivityBarIcon>
       </div>
 
