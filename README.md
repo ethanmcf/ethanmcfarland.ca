@@ -1,0 +1,2 @@
+# ethanmcfarland.ca
+Personal website
