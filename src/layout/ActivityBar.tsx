@@ -1,5 +1,11 @@
-import { Files } from "lucide-react";
-import { GithubIcon, InstagramIcon, LinkedinIcon } from "./icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFile } from "@fortawesome/free-regular-svg-icons";
+import {
+  faGithub,
+  faInstagram,
+  faLinkedin,
+} from "@fortawesome/free-brands-svg-icons";
+import profilePhoto from "../assets/profile.png";
 
 const SOCIAL_LINKS = {
   github: "https://github.com/ethanmcf",
@@ -14,22 +20,19 @@ interface ActivityBarProps {
 
 function ActivityBarIcon({
   label,
-  active,
+  pressed,
   onClick,
   href,
   children,
 }: {
   label: string;
-  active?: boolean;
+  pressed?: boolean;
   onClick?: () => void;
   href?: string;
   children: React.ReactNode;
 }) {
-  const className = `group relative flex h-12 w-12 items-center justify-center border-l-2 ${
-    active
-      ? "border-[#0078d4] text-white"
-      : "border-transparent text-[#858585] hover:text-white"
-  }`;
+  const className =
+    "flex h-12 w-12 items-center justify-center text-muted hover:text-white";
 
   if (href) {
     return (
@@ -52,7 +55,7 @@ function ActivityBarIcon({
       onClick={onClick}
       title={label}
       aria-label={label}
-      aria-pressed={active}
+      aria-pressed={pressed}
       className={className}
     >
       {children}
@@ -69,23 +72,30 @@ export default function ActivityBar({
       <div>
         <ActivityBarIcon
           label="Explorer"
-          active={sidebarOpen}
+          pressed={sidebarOpen}
           onClick={onToggleSidebar}
         >
-          <Files size={22} strokeWidth={1.5} />
+          <FontAwesomeIcon icon={faFile} className="text-[22px]" />
         </ActivityBarIcon>
       </div>
 
       <div className="mb-1">
         <ActivityBarIcon label="GitHub" href={SOCIAL_LINKS.github}>
-          <GithubIcon size={20} />
+          <FontAwesomeIcon icon={faGithub} className="text-[20px]" />
         </ActivityBarIcon>
         <ActivityBarIcon label="LinkedIn" href={SOCIAL_LINKS.linkedin}>
-          <LinkedinIcon size={20} />
+          <FontAwesomeIcon icon={faLinkedin} className="text-[20px]" />
         </ActivityBarIcon>
         <ActivityBarIcon label="Instagram" href={SOCIAL_LINKS.instagram}>
-          <InstagramIcon size={20} />
+          <FontAwesomeIcon icon={faInstagram} className="text-[20px]" />
         </ActivityBarIcon>
+        <div className="flex h-12 w-12 items-center justify-center">
+          <img
+            src={profilePhoto}
+            alt="Ethan McFarland"
+            className="h-7 w-7 shrink-0 rounded-full object-cover"
+          />
+        </div>
       </div>
     </nav>
   );

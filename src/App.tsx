@@ -1,7 +1,7 @@
 import { Route, Routes } from 'react-router-dom'
 import Layout from './layout/Layout'
 import Home from './pages/Home'
-import Experience from './pages/Experience'
+import ExperienceDetail from './pages/ExperienceDetail'
 import Education from './pages/Education'
 import Projects from './pages/Projects'
 import Techstack from './pages/Techstack'
@@ -11,7 +11,7 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<Home />} />
-        <Route path="experience" element={<Experience />} />
+        <Route path="experience/:slug" element={<ExperienceDetail />} />
         <Route path="education" element={<Education />} />
         <Route path="projects" element={<Projects />} />
         <Route path="techstack" element={<Techstack />} />

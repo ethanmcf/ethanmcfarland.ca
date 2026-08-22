@@ -1,45 +1,68 @@
-import { useState } from 'react'
-import { ChevronDown, ChevronRight, FileCode2, Folder, FolderOpen } from 'lucide-react'
-import { NavLink } from 'react-router-dom'
+import { useEffect, useRef, useState } from "react";
+import { ChevronDown, ChevronRight } from "lucide-react";
+import { NavLink } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
+import { FOLDERS } from "../data/folders";
 
-interface FolderEntry {
-  name: string
-  path: string
-  file: string
-}
-
-const FOLDERS: FolderEntry[] = [
-  { name: 'Experience', path: '/experience', file: 'experience.tsx' },
-  { name: 'Education', path: '/education', file: 'education.tsx' },
-  { name: 'Projects', path: '/projects', file: 'projects.tsx' },
-  { name: 'Techstack', path: '/techstack', file: 'techstack.tsx' },
-]
+const MIN_WIDTH = 180;
+const MAX_WIDTH = 480;
 
 export default function Sidebar() {
-  const [treeOpen, setTreeOpen] = useState(true)
-  const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(
-    () => Object.fromEntries(FOLDERS.map((folder) => [folder.name, true])),
-  )
+  const asideRef = useRef<HTMLElement>(null);
+  const resizingRef = useRef(false);
+  const [width, setWidth] = useState(240);
+  const [treeOpen, setTreeOpen] = useState(true);
+  const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(() =>
+    Object.fromEntries(FOLDERS.map((folder) => [folder.name, true])),
+  );
 
   const toggleFolder = (name: string) => {
-    setOpenFolders((prev) => ({ ...prev, [name]: !prev[name] }))
-  }
+    setOpenFolders((prev) => ({ ...prev, [name]: !prev[name] }));
+  };
+
+  useEffect(() => {
+    function handleMouseMove(event: MouseEvent) {
+      if (!resizingRef.current || !asideRef.current) return;
+      const left = asideRef.current.getBoundingClientRect().left;
+      setWidth(Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, event.clientX - left)));
+    }
+    function handleMouseUp() {
+      resizingRef.current = false;
+    }
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
 
   return (
-    <aside className="flex h-full w-60 shrink-0 flex-col overflow-y-auto border-r border-[#2b2b2b] bg-panel text-[#cccccc]">
-      <h2 className="px-4 pt-4 pb-2 text-[11px] font-bold tracking-wide text-[#bbbbbb]">
+    <aside
+      ref={asideRef}
+      style={{ width }}
+      className="relative flex h-full shrink-0 flex-col overflow-hidden border-r border-[#2b2b2b] bg-panel text-muted selection:bg-transparent selection:text-inherit"
+    >
+      <h2 className="px-4 pt-4 pb-2 text-[11px] font-bold tracking-wide text-muted">
         EXPLORER
       </h2>
 
       <button
         type="button"
         onClick={() => setTreeOpen((prev) => !prev)}
-        className="flex w-full items-center gap-1 px-2 py-1 text-left text-[11px] font-bold tracking-wide text-[#cccccc] hover:text-white"
+        className="group flex w-full items-center gap-1 px-2 py-1 text-left text-[11px] font-bold tracking-wide text-muted hover:text-hover"
       >
         {treeOpen ? (
-          <ChevronDown size={14} className="shrink-0 text-[#cccccc]" />
+          <ChevronDown
+            size={14}
+            className="shrink-0 text-muted group-hover:text-hover"
+          />
         ) : (
-          <ChevronRight size={14} className="shrink-0 text-[#cccccc]" />
+          <ChevronRight
+            size={14}
+            className="shrink-0 text-muted group-hover:text-hover"
+          />
         )}
         ETHANMCFARLAND.CA
       </button>
@@ -47,47 +70,78 @@ export default function Sidebar() {
       {treeOpen && (
         <ul>
           {FOLDERS.map((folder) => {
-            const isOpen = openFolders[folder.name]
+            const isOpen = openFolders[folder.name];
             return (
-              <li key={folder.name}>
+              <li key={folder.name} className="relative">
+                {isOpen && (
+                  <div className="pointer-events-none absolute top-[22px] bottom-[0px] left-[29px] w-px bg-white/10" />
+                )}
                 <button
                   type="button"
                   onClick={() => toggleFolder(folder.name)}
-                  className="flex w-full items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] hover:bg-[#2a2d2e]"
+                  className="group flex w-full cursor-pointer items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] text-muted hover:bg-white/[0.05] hover:text-white/50"
                 >
                   {isOpen ? (
-                    <ChevronDown size={14} className="shrink-0 text-[#cccccc]" />
+                    <ChevronDown size={14} className="shrink-0 text-muted" />
                   ) : (
-                    <ChevronRight size={14} className="shrink-0 text-[#cccccc]" />
+                    <ChevronRight
+                      size={14}
+                      className="shrink-0 text-muted group-hover:text-hover"
+                    />
                   )}
-                  {isOpen ? (
-                    <FolderOpen size={16} className="shrink-0 text-[#c09553]" />
-                  ) : (
-                    <Folder size={16} className="shrink-0 text-[#c09553]" />
-                  )}
+                  <img
+                    src={isOpen ? folder.iconOpen : folder.icon}
+                    alt=""
+                    className="h-4 w-4 shrink-0"
+                  />
                   {folder.name}
                 </button>
 
-                {isOpen && (
-                  <NavLink
-                    to={folder.path}
-                    className={({ isActive }) =>
-                      `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] ${
-                        isActive
-                          ? 'bg-[#37373d] text-white'
-                          : 'text-[#cccccc] hover:bg-[#2a2d2e]'
-                      }`
-                    }
-                  >
-                    <FileCode2 size={16} className="shrink-0 text-[#519aba]" />
-                    {folder.file}
-                  </NavLink>
-                )}
+                {isOpen &&
+                  folder.files.map((file) => (
+                    <NavLink
+                      key={file.path}
+                      to={file.path}
+                      className={({ isActive }) =>
+                        `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] ${
+                          isActive
+                            ? "bg-white/[0.05] text-white/70"
+                            : "text-muted hover:bg-white/[0.05] hover:text-white/20"
+                        }`
+                      }
+                    >
+                      <img
+                        src={file.icon}
+                        alt=""
+                        className="h-4 w-4 shrink-0"
+                      />
+                      {file.name}
+                    </NavLink>
+                  ))}
               </li>
-            )
+            );
           })}
         </ul>
       )}
+
+      <div className="mt-auto px-3 py-2.5">
+        <div className="flex items-center gap-1.5">
+          <FontAwesomeIcon
+            icon={faCodeBranch}
+            className="h-3.5 w-3.5 shrink-0 text-muted"
+          />
+          <span className="truncate text-[13px] text-muted">
+            main/ethan-mcfarland
+          </span>
+        </div>
+      </div>
+
+      <div
+        onMouseDown={() => {
+          resizingRef.current = true;
+        }}
+        className="absolute top-0 right-0 h-full w-1 cursor-col-resize hover:bg-white/20"
+      />
     </aside>
-  )
+  );
 }
