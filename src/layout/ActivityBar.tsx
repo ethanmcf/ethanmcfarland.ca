@@ -1,5 +1,7 @@
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFile } from "@fortawesome/free-regular-svg-icons";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import {
   faGithub,
   faInstagram,
@@ -70,6 +72,17 @@ export default function ActivityBar({
   sidebarOpen,
   onToggleSidebar,
 }: ActivityBarProps) {
+  const [photoOpen, setPhotoOpen] = useState(false);
+
+  useEffect(() => {
+    if (!photoOpen) return;
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setPhotoOpen(false);
+    }
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [photoOpen]);
+
   return (
     <nav className="flex h-full w-12 shrink-0 flex-col justify-between bg-chrome-activity">
       <div>
@@ -92,14 +105,42 @@ export default function ActivityBar({
         <ActivityBarIcon label="Instagram" href={SOCIAL_LINKS.instagram}>
           <FontAwesomeIcon icon={faInstagram} className="text-[20px]" />
         </ActivityBarIcon>
-        <div className="flex h-12 w-12 items-center justify-center">
+        <button
+          type="button"
+          onClick={() => setPhotoOpen(true)}
+          title="Ethan McFarland"
+          aria-label="Expand profile photo"
+          className="flex h-12 w-12 cursor-pointer items-center justify-center"
+        >
           <img
             src={profilePhoto}
             alt="Ethan McFarland"
             className="h-7 w-7 shrink-0 rounded-full object-cover"
           />
-        </div>
+        </button>
       </div>
+
+      {photoOpen && (
+        <div
+          onClick={() => setPhotoOpen(false)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-chrome-activity/50"
+        >
+          <button
+            type="button"
+            onClick={() => setPhotoOpen(false)}
+            aria-label="Close"
+            className="absolute top-6 right-6 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-text hover:bg-overlay-strong"
+          >
+            <FontAwesomeIcon icon={faXmark} className="text-[20px]" />
+          </button>
+          <img
+            src={profilePhoto}
+            alt="Ethan McFarland"
+            onClick={(event) => event.stopPropagation()}
+            className="h-[80vh] w-[80vh] max-w-[90vw] rounded-full object-cover shadow-2xl"
+          />
+        </div>
+      )}
     </nav>
   );
 }
