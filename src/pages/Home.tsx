@@ -1,11 +1,14 @@
+import logo from "../assets/blacked-out-logo.png";
+
 export default function Home() {
   return (
-    <div className="p-8">
-      <h1 className="text-2xl font-semibold text-white">Ethan McFarland</h1>
-      <p className="mt-2 max-w-prose text-[#9d9d9d]">
-        Software engineer. Browse the explorer on the left to open a section,
-        or check the terminal below.
-      </p>
+    <div className="flex h-full flex-col items-center justify-center gap-6 p-8 text-start">
+      <img src={logo} alt="" className="h-84 w-84 opacity-40" />
+      <div className="flex flex-col gap-1.5 text-[16px] text-muted">
+        <p>Welcome to my IDE</p>
+        <p>Open files on the left</p>
+        <p>Use the terminal below to send me a message</p>
+      </div>
     </div>
-  )
+  );
 }
