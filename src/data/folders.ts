@@ -62,10 +62,10 @@ export const FOLDERS: FolderEntry[] = [
     icon: srcFolderIcon,
     iconOpen: srcFolderOpenIcon,
     files: [
-      "QualityEngineerIntern.tsx",
-      "SoftwareDeveloperIntern.tsx",
-      "DevOpsSpecalistIntern.tsx",
-      "CyberSecurityEngineerIntern.tsx",
+      "Cyber-Security-Engineer_2026.tsx",
+      "DevOps-Specalist_2025.tsx",
+      "Software-Developer_2024.tsx",
+      "Quality-Engineer_2023.tsx",
     ].map((name) => makeFile(name, `/experience/${slugify(name)}`)),
   },
   {

@@ -5,4 +5,12 @@
   --color-muted: #515967;
   --color-hover: #cbcac2;
   --color-accent: #7ebcfb;
+
+  --color-code-keyword: #ffa659;
+  --color-code-class: #61c1d6;
+  --color-code-brace: #fad208;
+  --color-code-string: #d4ff80;
+  --color-code-punct: #d4d4d4;
+  --color-code-bracket: #b562b5;
+  --color-code-number: #c586c0;
 }
