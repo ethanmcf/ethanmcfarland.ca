@@ -6,6 +6,7 @@ export const SKILLS = {
     "FastAPI",
     "Node.js",
     "Flutter",
+    "TailwindCSS",
   ],
   infrastructureAndDevOps: [
     "Docker",
@@ -14,6 +15,6 @@ export const SKILLS = {
     "GitHub Actions",
     "Jenkins",
   ],
-  testingAndAutomation: ["pytest", "JUnit", "Playwright", "Jest"],
-  tools: ["Git", "VS Code", "Postman", "Figma", "Jira", "Slack"],
+  testingAndAutomation: ["pytest", "Playwright", "JUnit", "Jest"],
+  tools: ["Git", "Postman", "Figma", "Jira"],
 };
