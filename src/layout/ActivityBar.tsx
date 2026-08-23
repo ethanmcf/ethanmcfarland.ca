@@ -59,7 +59,7 @@ function ActivityBarIcon({
       className={className}
     >
       {pressed && (
-        <span className="absolute top-[-10px] bottom-[0px] left-0 w-[2px] bg-[#7ebcfb]" />
+        <span className="absolute top-[-10px] bottom-[0px] left-0 w-[2px] bg-accent" />
       )}
       {children}
     </button>

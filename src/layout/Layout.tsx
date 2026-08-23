@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import ActivityBar from './ActivityBar'
 import Sidebar from './Sidebar'
+import Tabs from './Tabs'
 import Terminal from './Terminal'
 
 export default function Layout() {
@@ -17,6 +18,7 @@ export default function Layout() {
       {sidebarOpen && <Sidebar />}
 
       <div className="flex min-w-0 flex-1 flex-col">
+        <Tabs />
         <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>

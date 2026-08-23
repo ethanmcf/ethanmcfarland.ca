@@ -65,7 +65,7 @@ export const FOLDERS: FolderEntry[] = [
       "QualityEngineerIntern.tsx",
       "SoftwareDeveloperIntern.tsx",
       "DevOpsSpecalistIntern.tsx",
-      "CyberSecurityEngineer.tsx",
+      "CyberSecurityEngineerIntern.tsx",
     ].map((name) => makeFile(name, `/experience/${slugify(name)}`)),
   },
   {
@@ -87,3 +87,5 @@ export const FOLDERS: FolderEntry[] = [
     files: [makeFile("Skills.json", "/techstack")],
   },
 ];
+
+export const ALL_FILES: FileEntry[] = FOLDERS.flatMap((folder) => folder.files);
