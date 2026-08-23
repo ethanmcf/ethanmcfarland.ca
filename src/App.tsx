@@ -5,6 +5,7 @@ import ExperienceFile from "./pages/ExperienceFile";
 import Education from "./pages/Education";
 import Projects from "./pages/Projects";
 import Techstack from "./pages/Techstack";
+import Resume from "./pages/Resume";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="education" element={<Education />} />
         <Route path="projects" element={<Projects />} />
         <Route path="techstack" element={<Techstack />} />
+        <Route path="resume" element={<Resume />} />
       </Route>
     </Routes>
   );

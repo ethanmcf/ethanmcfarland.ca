@@ -3,7 +3,7 @@ import { ChevronDown, ChevronRight } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCodeBranch } from "@fortawesome/free-solid-svg-icons";
-import { FOLDERS } from "../data/folders";
+import { FOLDERS, ROOT_FILES } from "../data/folders";
 
 const MIN_WIDTH = 180;
 const MAX_WIDTH = 480;
@@ -26,6 +26,9 @@ function measureDefaultWidth(): number {
         (file) => context.measureText(file.name).width + FILE_ROW_CHROME,
       ),
     ]),
+    ...ROOT_FILES.map(
+      (file) => context.measureText(file.name).width + FOLDER_ROW_CHROME,
+    ),
   );
 
   return Math.min(
@@ -147,6 +150,24 @@ export default function Sidebar() {
               </li>
             );
           })}
+
+          {ROOT_FILES.map((file) => (
+            <li key={file.path}>
+              <NavLink
+                to={file.path}
+                className={({ isActive }) =>
+                  `flex items-center gap-1.5 py-[3px] pr-2 pl-6 text-[13px] whitespace-nowrap ${
+                    isActive
+                      ? "bg-white/[0.05] text-white/70"
+                      : "text-muted hover:bg-white/[0.05] hover:text-white/20"
+                  }`
+                }
+              >
+                <img src={file.icon} alt="" className="h-4 w-4 shrink-0" />
+                {file.name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       )}
 

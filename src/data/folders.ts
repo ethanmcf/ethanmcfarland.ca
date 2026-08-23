@@ -10,12 +10,14 @@ import reactTsIcon from "material-icon-theme/icons/react_ts.svg";
 import htmlIcon from "material-icon-theme/icons/html.svg";
 import jsonIcon from "material-icon-theme/icons/json.svg";
 import markdownIcon from "material-icon-theme/icons/markdown.svg";
+import pdfIcon from "material-icon-theme/icons/pdf.svg";
 
 const FILE_ICONS: Record<string, string> = {
   tsx: reactTsIcon,
   html: htmlIcon,
   json: jsonIcon,
   md: markdownIcon,
+  pdf: pdfIcon,
 };
 
 function stripExt(fileName: string) {
@@ -88,4 +90,9 @@ export const FOLDERS: FolderEntry[] = [
   },
 ];
 
-export const ALL_FILES: FileEntry[] = FOLDERS.flatMap((folder) => folder.files);
+export const ROOT_FILES: FileEntry[] = [makeFile("Resume.pdf", "/resume")];
+
+export const ALL_FILES: FileEntry[] = [
+  ...FOLDERS.flatMap((folder) => folder.files),
+  ...ROOT_FILES,
+];
