@@ -11,6 +11,8 @@ import htmlIcon from "material-icon-theme/icons/html.svg";
 import jsonIcon from "material-icon-theme/icons/json.svg";
 import markdownIcon from "material-icon-theme/icons/markdown.svg";
 import pdfIcon from "material-icon-theme/icons/pdf.svg";
+import { slugify, titleize } from "../utils/slug";
+import { PROJECTS } from "./projects";
 
 const FILE_ICONS: Record<string, string> = {
   tsx: reactTsIcon,
@@ -19,20 +21,6 @@ const FILE_ICONS: Record<string, string> = {
   md: markdownIcon,
   pdf: pdfIcon,
 };
-
-function stripExt(fileName: string) {
-  return fileName.replace(/\.[^.]+$/, "");
-}
-
-function slugify(fileName: string) {
-  return stripExt(fileName)
-    .replace(/([a-z0-9])([A-Z])/g, "$1-$2")
-    .toLowerCase();
-}
-
-function titleize(fileName: string) {
-  return stripExt(fileName).replace(/([a-z0-9])([A-Z])/g, "$1 $2");
-}
 
 export interface FileEntry {
   name: string;
@@ -80,7 +68,7 @@ export const FOLDERS: FolderEntry[] = [
     name: "Projects",
     icon: publicFolderIcon,
     iconOpen: publicFolderOpenIcon,
-    files: [makeFile("Projects.md", "/projects")],
+    files: PROJECTS.map((project) => makeFile(project.fileName, project.path)),
   },
   {
     name: "Techstack",

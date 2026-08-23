@@ -50,7 +50,10 @@ export default function Tabs() {
             }`}
           >
             <img src={tab.icon} alt="" className="h-4 w-4 shrink-0" />
-            <span className="truncate">{tab.name}</span>
+            <span className="truncate">
+              {tab.name}
+              {tab.name.endsWith(".md") ? " (Preview)" : ""}
+            </span>
             <span
               role="button"
               tabIndex={-1}
