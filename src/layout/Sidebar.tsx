@@ -135,7 +135,7 @@ export default function Sidebar() {
                         `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] whitespace-nowrap ${
                           isActive
                             ? "bg-overlay-weak text-content"
-                            : "text-muted hover:bg-overlay-weak hover:text-overlay-strong"
+                            : "text-muted hover:bg-overlay-weak hover:text-hover-text-emphasis"
                         }`
                       }
                     >
@@ -159,7 +159,7 @@ export default function Sidebar() {
                   `flex items-center gap-1.5 py-[3px] pr-2 pl-6 text-[13px] whitespace-nowrap ${
                     isActive
                       ? "bg-overlay-weak text-content"
-                      : "text-muted hover:bg-overlay-weak hover:text-overlay-strong"
+                      : "text-muted hover:bg-overlay-weak hover:text-hover-text-emphasis"
                   }`
                 }
               >

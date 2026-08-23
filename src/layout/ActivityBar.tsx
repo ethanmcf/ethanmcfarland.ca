@@ -32,7 +32,7 @@ function ActivityBarIcon({
   children: React.ReactNode;
 }) {
   const className =
-    "relative flex h-12 w-12 cursor-pointer items-center justify-center text-muted hover:text-hover-text-mid";
+    "relative flex h-12 w-12 cursor-pointer items-center justify-center text-muted hover:text-white/70";
 
   if (href) {
     return (
