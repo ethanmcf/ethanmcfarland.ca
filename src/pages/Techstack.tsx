@@ -9,9 +9,9 @@ interface CodeLine {
 function jsonKey(key: string): ReactNode {
   return (
     <>
-      <span className="text-white/75">"</span>
+      <span className="text-content">"</span>
       <span className="text-code-number">{key}</span>
-      <span className="text-white/75">"</span>
+      <span className="text-content">"</span>
     </>
   );
 }
@@ -19,9 +19,9 @@ function jsonKey(key: string): ReactNode {
 function jsonString(value: string, trailingComma: boolean): ReactNode {
   return (
     <>
-      <span className="text-white/75">"</span>
+      <span className="text-content">"</span>
       <span className="text-code-string">{value}</span>
-      <span className="text-white/75">"{trailingComma ? "," : ""}</span>
+      <span className="text-content">"{trailingComma ? "," : ""}</span>
     </>
   );
 }
@@ -30,13 +30,13 @@ const categories = Object.entries(SKILLS);
 
 export default function Techstack() {
   const lines: CodeLine[] = [
-    { indent: 0, content: <span className="text-white/75">{"{"}</span> },
+    { indent: 0, content: <span className="text-content">{"{"}</span> },
     {
       indent: 1,
       content: (
         <>
           {jsonKey("skills")}
-          <span className="text-white/75">: {"{"}</span>
+          <span className="text-content">: {"{"}</span>
         </>
       ),
     },
@@ -48,7 +48,7 @@ export default function Techstack() {
           content: (
             <>
               {jsonKey(key)}
-              <span className="text-white/75">: [</span>
+              <span className="text-content">: [</span>
             </>
           ),
         },
@@ -59,13 +59,13 @@ export default function Techstack() {
         {
           indent: 2,
           content: (
-            <span className="text-white/75">]{isLastCategory ? "" : ","}</span>
+            <span className="text-content">]{isLastCategory ? "" : ","}</span>
           ),
         },
       ];
     }),
-    { indent: 1, content: <span className="text-white/75">{"}"}</span> },
-    { indent: 0, content: <span className="text-white/75">{"}"}</span> },
+    { indent: 1, content: <span className="text-content">{"}"}</span> },
+    { indent: 0, content: <span className="text-content">{"}"}</span> },
   ];
 
   return (

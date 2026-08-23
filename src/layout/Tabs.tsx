@@ -43,10 +43,10 @@ export default function Tabs() {
             key={tab.path}
             type="button"
             onClick={() => navigate(tab.path)}
-            className={`group flex min-w-0 cursor-pointer items-center gap-2 border-[#2b2b2b] border-b-2 px-3 text-[13px] ${
+            className={`group flex min-w-0 cursor-pointer items-center gap-2 border-divider border-b-2 px-3 text-[13px] ${
               isActive
-                ? "border-b-accent text-white/70"
-                : "border-b-transparent text-muted hover:bg-white/[0.05]"
+                ? "border-b-accent text-content"
+                : "border-b-transparent text-muted hover:bg-overlay-weak"
             }`}
           >
             <img src={tab.icon} alt="" className="h-4 w-4 shrink-0" />
@@ -58,7 +58,7 @@ export default function Tabs() {
                 event.stopPropagation();
                 closeTab(tab.path);
               }}
-              className="flex h-4 w-4 shrink-0 items-center justify-center rounded hover:bg-white/10"
+              className="flex h-4 w-4 shrink-0 items-center justify-center rounded hover:bg-overlay-soft"
             >
               <X size={12} />
             </span>

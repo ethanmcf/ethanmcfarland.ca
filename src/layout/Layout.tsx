@@ -9,7 +9,7 @@ export default function Layout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-panel font-sans text-[#cccccc]">
+    <div className="flex h-screen w-screen overflow-hidden bg-panel font-sans text-text">
       <ActivityBar
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen((prev) => !prev)}
@@ -19,7 +19,7 @@ export default function Layout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Tabs />
-        <main className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-none [&::-webkit-scrollbar-thumb]:bg-white/[0.15] [&::-webkit-scrollbar-thumb:hover]:bg-white/10">
+        <main className="flex-1 overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-none [&::-webkit-scrollbar-thumb]:bg-overlay-mid [&::-webkit-scrollbar-thumb:hover]:bg-overlay-soft">
           <Outlet />
         </main>
         <Terminal />

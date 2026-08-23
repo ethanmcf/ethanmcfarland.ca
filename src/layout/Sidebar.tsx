@@ -71,7 +71,7 @@ export default function Sidebar() {
     <aside
       ref={asideRef}
       style={{ width }}
-      className="relative flex h-full shrink-0 flex-col overflow-hidden border-r border-[#2b2b2b] bg-panel text-muted selection:bg-transparent selection:text-inherit"
+      className="relative flex h-full shrink-0 flex-col overflow-hidden border-r border-divider bg-chrome-sidebar text-muted selection:bg-transparent selection:text-inherit"
     >
       <h2 className="px-4 pt-4 pb-2 text-[11px] font-bold tracking-wide text-muted">
         EXPLORER
@@ -103,12 +103,12 @@ export default function Sidebar() {
             return (
               <li key={folder.name} className="relative">
                 {isOpen && (
-                  <div className="pointer-events-none absolute top-[22px] bottom-[0px] left-[29px] w-px bg-white/10" />
+                  <div className="pointer-events-none absolute top-[22px] bottom-[0px] left-[29px] w-px bg-overlay-soft" />
                 )}
                 <button
                   type="button"
                   onClick={() => toggleFolder(folder.name)}
-                  className="group flex w-full cursor-pointer items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] whitespace-nowrap text-muted hover:bg-white/[0.05] hover:text-white/50"
+                  className="group flex w-full cursor-pointer items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] whitespace-nowrap text-muted hover:bg-overlay-weak hover:text-hover-text-emphasis"
                 >
                   {isOpen ? (
                     <ChevronDown size={14} className="shrink-0 text-muted" />
@@ -134,8 +134,8 @@ export default function Sidebar() {
                       className={({ isActive }) =>
                         `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] whitespace-nowrap ${
                           isActive
-                            ? "bg-white/[0.05] text-white/70"
-                            : "text-muted hover:bg-white/[0.05] hover:text-white/20"
+                            ? "bg-overlay-weak text-content"
+                            : "text-muted hover:bg-overlay-weak hover:text-overlay-strong"
                         }`
                       }
                     >
@@ -158,8 +158,8 @@ export default function Sidebar() {
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 py-[3px] pr-2 pl-6 text-[13px] whitespace-nowrap ${
                     isActive
-                      ? "bg-white/[0.05] text-white/70"
-                      : "text-muted hover:bg-white/[0.05] hover:text-white/20"
+                      ? "bg-overlay-weak text-content"
+                      : "text-muted hover:bg-overlay-weak hover:text-overlay-strong"
                   }`
                 }
               >
@@ -187,7 +187,7 @@ export default function Sidebar() {
         onMouseDown={() => {
           resizingRef.current = true;
         }}
-        className="absolute top-0 right-0 h-full w-1 cursor-col-resize hover:bg-white/20"
+        className="absolute top-0 right-0 h-full w-1 cursor-col-resize hover:bg-overlay-strong"
       />
     </aside>
   );

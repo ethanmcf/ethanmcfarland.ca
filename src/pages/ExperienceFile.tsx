@@ -34,7 +34,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">{skill}</span>
+          <span className="text-content">{skill}</span>
           <span className="text-code-punct">,</span>
         </>
       ),
@@ -56,7 +56,7 @@ export default function ExperienceFile() {
         <>
           <span className="text-code-keyword">import</span>{" "}
           <span className="text-code-brace">{"{"}</span>{" "}
-          <span className="text-white/75">{details.company}</span>{" "}
+          <span className="text-content">{details.company}</span>{" "}
           <span className="text-code-brace">{"}"}</span>{" "}
           <span className="text-code-keyword">from</span>{" "}
           <span className="text-code-string">"@employers"</span>
@@ -79,9 +79,9 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">company</span>
+          <span className="text-content">company</span>
           <span className="text-code-punct"> = </span>
-          <span className="text-white/75">{details.company}</span>
+          <span className="text-content">{details.company}</span>
           <span className="text-code-punct">;</span>
         </>
       ),
@@ -91,7 +91,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">team</span>
+          <span className="text-content">team</span>
           <span className="text-code-punct"> = </span>
           <span className="text-code-string">"{details.team}"</span>
           <span className="text-code-punct">;</span>
@@ -102,7 +102,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">year</span>
+          <span className="text-content">year</span>
           <span className="text-code-punct"> = </span>
           <span className="text-code-number">{details.year}</span>
           <span className="text-code-punct">;</span>
@@ -113,7 +113,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">season</span>
+          <span className="text-content">season</span>
           <span className="text-code-punct"> = </span>
           <span className="text-code-string">"{details.season}"</span>
           <span className="text-code-punct">;</span>
@@ -124,7 +124,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">location</span>
+          <span className="text-content">location</span>
           <span className="text-code-punct"> = </span>
           <span className="text-code-class">Location</span>
           <span className="text-code-brace">(</span>
@@ -138,7 +138,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <>
-          <span className="text-white/75">isRemote</span>
+          <span className="text-content">isRemote</span>
           <span className="text-code-punct"> = </span>
           <span className="text-code-number">
             {details.isRemote ? "true" : "false"}
@@ -158,7 +158,7 @@ export default function ExperienceFile() {
       indent: 1,
       content: (
         <span className="text-code-punct">
-          <span className="text-white/75">achievements</span> ={" "}
+          <span className="text-content">achievements</span> ={" "}
           <span className="text-code-bracket">[</span>
         </span>
       ),

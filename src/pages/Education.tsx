@@ -36,7 +36,7 @@ function CloseTag({ tag, variant = "subtag" }: { tag: string; variant?: TagVaria
 function leaf(
   tag: string,
   value: string,
-  valueClassName = "text-white/75",
+  valueClassName = "text-content",
 ): ReactNode {
   return (
     <>

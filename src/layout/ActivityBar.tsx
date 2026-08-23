@@ -32,7 +32,7 @@ function ActivityBarIcon({
   children: React.ReactNode;
 }) {
   const className =
-    "relative flex h-12 w-12 items-center justify-center text-muted hover:text-white/40";
+    "relative flex h-12 w-12 items-center justify-center text-muted hover:text-hover-text-mid";
 
   if (href) {
     return (
@@ -71,7 +71,7 @@ export default function ActivityBar({
   onToggleSidebar,
 }: ActivityBarProps) {
   return (
-    <nav className="flex h-full w-12 shrink-0 flex-col justify-between bg-panel">
+    <nav className="flex h-full w-12 shrink-0 flex-col justify-between bg-chrome-activity">
       <div>
         <ActivityBarIcon
           label="Explorer"
