@@ -35,7 +35,7 @@ export default function Tabs() {
   if (openTabs.length === 0) return null;
 
   return (
-    <div className="flex h-9 shrink-0 items-stretch overflow-x-auto bg-panel">
+    <div className="flex h-9 shrink-0 items-stretch overflow-hidden bg-panel">
       {openTabs.map((tab) => {
         const isActive = location.pathname === tab.path;
         return (
@@ -43,14 +43,14 @@ export default function Tabs() {
             key={tab.path}
             type="button"
             onClick={() => navigate(tab.path)}
-            className={`group flex shrink-0 cursor-pointer items-center gap-2 border-[#2b2b2b] border-b-2 px-3 text-[13px] ${
+            className={`group flex min-w-0 cursor-pointer items-center gap-2 border-[#2b2b2b] border-b-2 px-3 text-[13px] ${
               isActive
                 ? "border-b-accent text-white/70"
                 : "border-b-transparent text-muted hover:bg-white/[0.05]"
             }`}
           >
             <img src={tab.icon} alt="" className="h-4 w-4 shrink-0" />
-            {tab.name}
+            <span className="truncate">{tab.name}</span>
             <span
               role="button"
               tabIndex={-1}

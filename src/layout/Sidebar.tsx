@@ -8,10 +8,36 @@ import { FOLDERS } from "../data/folders";
 const MIN_WIDTH = 180;
 const MAX_WIDTH = 480;
 
+const FOLDER_ROW_CHROME = 74; // pl-6 + chevron + gap + icon + gap + pr-2
+const FILE_ROW_CHROME = 82; // pl-[3.25rem] + icon + gap + breathing room
+const RESIZE_HANDLE_BUFFER = 12;
+
+function measureDefaultWidth(): number {
+  if (typeof document === "undefined") return 240;
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
+  if (!context) return 240;
+  context.font = "13px ui-sans-serif, system-ui, sans-serif";
+
+  const widest = Math.max(
+    ...FOLDERS.flatMap((folder) => [
+      context.measureText(folder.name).width + FOLDER_ROW_CHROME,
+      ...folder.files.map(
+        (file) => context.measureText(file.name).width + FILE_ROW_CHROME,
+      ),
+    ]),
+  );
+
+  return Math.min(
+    MAX_WIDTH,
+    Math.max(MIN_WIDTH, Math.ceil(widest) + RESIZE_HANDLE_BUFFER),
+  );
+}
+
 export default function Sidebar() {
   const asideRef = useRef<HTMLElement>(null);
   const resizingRef = useRef(false);
-  const [width, setWidth] = useState(240);
+  const [width, setWidth] = useState(measureDefaultWidth);
   const [treeOpen, setTreeOpen] = useState(true);
   const [openFolders, setOpenFolders] = useState<Record<string, boolean>>(() =>
     Object.fromEntries(FOLDERS.map((folder) => [folder.name, true])),
@@ -79,7 +105,7 @@ export default function Sidebar() {
                 <button
                   type="button"
                   onClick={() => toggleFolder(folder.name)}
-                  className="group flex w-full cursor-pointer items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] text-muted hover:bg-white/[0.05] hover:text-white/50"
+                  className="group flex w-full cursor-pointer items-center gap-1.5 py-[3px] pr-2 pl-6 text-left text-[13px] whitespace-nowrap text-muted hover:bg-white/[0.05] hover:text-white/50"
                 >
                   {isOpen ? (
                     <ChevronDown size={14} className="shrink-0 text-muted" />
@@ -103,7 +129,7 @@ export default function Sidebar() {
                       key={file.path}
                       to={file.path}
                       className={({ isActive }) =>
-                        `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] ${
+                        `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] whitespace-nowrap ${
                           isActive
                             ? "bg-white/[0.05] text-white/70"
                             : "text-muted hover:bg-white/[0.05] hover:text-white/20"
