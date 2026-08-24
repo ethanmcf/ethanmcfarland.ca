@@ -1,19 +1,56 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-type Step = "email" | "message" | "review" | "sent";
+type Step = "email" | "message" | "review" | "sending" | "sent" | "error";
+
+const SEND_FAILURE_RATE = 0.2;
+
+const LOADING_TICKS = 24;
+const LOADING_INTERVAL_MS = 110;
+const SPINNER_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function ContactMeTab() {
   const [step, setStep] = useState<Step>("email");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [draft, setDraft] = useState("");
+  const [loadingTick, setLoadingTick] = useState(0);
+  const [emailError, setEmailError] = useState("");
+
+  useEffect(() => {
+    if (step !== "sending") return;
+    if (loadingTick >= LOADING_TICKS) {
+      setStep(Math.random() < SEND_FAILURE_RATE ? "error" : "sent");
+      return;
+    }
+    const timeout = setTimeout(
+      () => setLoadingTick((prev) => prev + 1),
+      LOADING_INTERVAL_MS,
+    );
+    return () => clearTimeout(timeout);
+  }, [step, loadingTick]);
+
+  function resetForm() {
+    setEmail("");
+    setMessage("");
+    setDraft("");
+    setLoadingTick(0);
+    setEmailError("");
+    setStep("email");
+  }
 
   function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
 
     if (step === "email") {
-      if (!draft.trim()) return;
-      setEmail(draft.trim());
+      const trimmed = draft.trim();
+      if (!trimmed) return;
+      if (!EMAIL_PATTERN.test(trimmed)) {
+        setEmailError("That doesn't look like a valid email");
+        return;
+      }
+      setEmailError("");
+      setEmail(trimmed);
       setDraft("");
       setStep("message");
     } else if (step === "message") {
@@ -22,24 +59,34 @@ export default function ContactMeTab() {
       setDraft("");
       setStep("review");
     } else if (step === "review") {
-      setStep("sent");
+      setLoadingTick(0);
+      setStep("sending");
     }
   }
 
   return (
     <div className="flex flex-col gap-1.5">
       <p className="text-terminal-muted">
-        # answer the prompts below to send me a message
+        # type your email and press enter, then type your message and press
+        enter to send
       </p>
 
-      <AnsweredPrompt label="Your email" value={email} show={step !== "email"} />
+      <AnsweredPrompt
+        label="Your email"
+        value={email}
+        show={step !== "email"}
+      />
       {step === "email" && (
         <QuestionInput
           value={draft}
-          onChange={setDraft}
+          onChange={(value) => {
+            setDraft(value);
+            if (emailError) setEmailError("");
+          }}
           onSubmit={handleSubmit}
           placeholder="you@example.com"
-          type="email"
+          inputMode="email"
+          error={emailError}
         />
       )}
 
@@ -55,28 +102,73 @@ export default function ContactMeTab() {
           value={draft}
           onChange={setDraft}
           onSubmit={handleSubmit}
-          placeholder="What's on your mind?"
+          placeholder="Say hi, ask a question, whatever's on your mind"
         />
       )}
 
       {step === "review" && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-1">
-          <p className="text-terminal-muted">
-            # this demo doesn't send anything yet — press enter to continue
-          </p>
           <button
             type="submit"
-            className="w-fit cursor-pointer text-terminal-arrow hover:underline"
+            autoFocus
+            className="w-fit cursor-pointer text-accent outline-none hover:underline"
           >
             [Enter] Send message →
           </button>
         </form>
       )}
 
-      {step === "sent" && (
-        <p className="text-terminal-arrow">
-          ✓ Got it — thanks, {email}. (UI demo only, not wired up to send yet)
+      {step === "sending" && (
+        <p className="text-text">
+          <span className="whitespace-pre">
+            {SPINNER_FRAMES[loadingTick % SPINNER_FRAMES.length]} [
+            {"█".repeat(loadingTick)}
+            {"░".repeat(LOADING_TICKS - loadingTick)}]{" "}
+            {Math.round((loadingTick / LOADING_TICKS) * 100)}%
+          </span>{" "}
+          sending message…
         </p>
+      )}
+
+      {step === "sent" && (
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            resetForm();
+          }}
+          className="flex flex-col gap-1"
+        >
+          <p className="text-terminal-arrow">✓ Got it — thanks, {email}.</p>
+          <button
+            type="submit"
+            autoFocus
+            className="w-fit cursor-pointer text-accent outline-none hover:underline"
+          >
+            [Enter] Send another message →
+          </button>
+        </form>
+      )}
+
+      {step === "error" && (
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            setStep("review");
+          }}
+          className="flex flex-col gap-1"
+        >
+          <p className="text-error">
+            ✕ There was an issue sending your message — please try again in a
+            bit.
+          </p>
+          <button
+            type="submit"
+            autoFocus
+            className="w-fit cursor-pointer text-accent outline-none hover:underline"
+          >
+            [Enter] Try again →
+          </button>
+        </form>
       )}
     </div>
   );
@@ -106,26 +198,33 @@ function QuestionInput({
   onChange,
   onSubmit,
   placeholder,
-  type = "text",
+  inputMode,
+  error,
 }: {
   value: string;
   onChange: (value: string) => void;
   onSubmit: (event: React.FormEvent) => void;
   placeholder: string;
-  type?: string;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>["inputMode"];
+  error?: string;
 }) {
   return (
     <form onSubmit={onSubmit} className="flex items-center gap-1.5">
       <span className="text-accent">?</span>
       <input
         autoFocus
-        type={type}
+        type="text"
+        inputMode={inputMode}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
         spellCheck={false}
-        className="flex-1 bg-transparent font-mono text-[13px] text-text outline-none placeholder:text-terminal-muted"
+        size={Math.max((value || placeholder).length, 1)}
+        className={`bg-transparent font-mono text-[13px] text-text outline-none placeholder:text-terminal-muted ${
+          error ? "" : "flex-1"
+        }`}
       />
+      {error && <span className="text-[12px] pl-4 text-error">{error}</span>}
     </form>
   );
 }

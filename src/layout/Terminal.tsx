@@ -90,9 +90,6 @@ export default function Terminal() {
           style={{ height }}
           className="overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6"
         >
-          <p className="text-terminal-muted">
-            Last login: {new Date().toDateString()} on ttys002
-          </p>
           {activeTab === "contact" && <ContactMeTab />}
           {activeTab === "about" && <AboutMeTab />}
           {activeTab === "system" && <SystemStatusTab />}
