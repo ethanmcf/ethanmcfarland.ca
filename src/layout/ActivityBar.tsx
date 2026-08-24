@@ -123,7 +123,7 @@ export default function ActivityBar({
       {photoOpen && (
         <div
           onClick={() => setPhotoOpen(false)}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-chrome-activity/50"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-chrome-activity/90"
         >
           <button
             type="button"

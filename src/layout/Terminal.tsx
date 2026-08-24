@@ -88,7 +88,7 @@ export default function Terminal() {
       {open && (
         <div
           style={{ height }}
-          className="overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6"
+          className="overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {activeTab === "contact" && <ContactMeTab />}
           {activeTab === "about" && <AboutMeTab />}
