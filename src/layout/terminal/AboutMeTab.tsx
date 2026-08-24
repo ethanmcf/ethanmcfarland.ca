@@ -1,10 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 import PromptLine from "./PromptLine";
-import { ABOUT_COMMANDS } from "../../data/aboutMe";
+import { ABOUT_COMMANDS, type AboutCommand } from "../../data/aboutMe";
 
 interface HistoryEntry {
   command: string;
   output: string[];
+}
+
+function normalize(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, "")
+    .trim();
+}
+
+function findCommand(raw: string): AboutCommand | undefined {
+  const normalized = normalize(raw);
+  if (!normalized) return undefined;
+
+  const exact = ABOUT_COMMANDS.find((entry) => entry.command === normalized);
+  if (exact) return exact;
+
+  const aliasExact = ABOUT_COMMANDS.find((entry) =>
+    entry.aliases.includes(normalized),
+  );
+  if (aliasExact) return aliasExact;
+
+  return ABOUT_COMMANDS.find((entry) =>
+    [entry.command, ...entry.aliases].some((keyword) =>
+      normalized.includes(keyword),
+    ),
+  );
 }
 
 export default function AboutMeTab() {
@@ -16,32 +42,37 @@ export default function AboutMeTab() {
     endRef.current?.scrollIntoView({ block: "end" });
   }, [history]);
 
-  function handleSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    const command = input.trim();
+  function runCommand(raw: string) {
+    const command = raw.trim();
     if (!command) return;
 
-    if (command.toLowerCase() === "clear") {
+    if (normalize(command) === "clear") {
       setHistory([]);
       setInput("");
       return;
     }
 
-    const match = ABOUT_COMMANDS.find(
-      (entry) => entry.command === command.toLowerCase(),
-    );
+    const match = findCommand(command);
     const output = match
       ? match.run()
-      : [`command not found: ${command} — type "help" for a list`];
+      : [
+          `I didn't catch that — type "help" for a few ideas of what to ask (you're not limited to those, just ask in your own words)`,
+        ];
 
     setHistory((prev) => [...prev, { command, output }]);
     setInput("");
   }
 
+  function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
+    event.preventDefault();
+    runCommand(input);
+  }
+
   return (
     <div className="flex flex-col gap-1.5">
       <p className="text-terminal-muted">
-        # type a command to learn more about me — try "help"
+        # ask me anything about myself, in your own words — type "help" for a
+        few ideas to get started
       </p>
 
       {history.map((entry, index) => (
