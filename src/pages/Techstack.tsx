@@ -69,7 +69,7 @@ export default function Techstack() {
   ];
 
   return (
-    <div className="p-8 font-mono text-[13px] leading-5.5">
+    <div className="p-4 font-mono text-[13px] leading-5.5 sm:p-8">
       {lines.map((line, index) => (
         <div key={index} className="flex">
           <span className="mr-4 w-6 shrink-0 text-right text-[13px] text-muted select-none">

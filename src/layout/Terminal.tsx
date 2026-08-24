@@ -55,21 +55,22 @@ export default function Terminal() {
         />
       )}
 
-      <div className="flex h-9 shrink-0 items-center justify-between pr-2">
-        <div className="flex h-full items-center text-[11px] font-medium tracking-wide">
+      <div className="flex h-9 min-w-0 shrink-0 items-center justify-between pr-2">
+        <div className="flex h-full min-w-0 items-center overflow-x-auto text-[11px] font-medium tracking-wide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               type="button"
               onClick={() => setActiveTab(id)}
-              className={`flex h-full cursor-pointer items-center gap-1.5 border-b-2 px-3 ${
+              title={label}
+              className={`flex h-full shrink-0 cursor-pointer items-center gap-1.5 border-b-2 px-3 ${
                 activeTab === id
                   ? "border-accent text-white"
                   : "border-transparent text-terminal-muted hover:text-hover-text-emphasis"
               }`}
             >
-              <Icon size={14} />
-              {label}
+              <Icon size={14} className="h-5 w-5 sm:h-3.5 sm:w-3.5" />
+              <span className="hidden sm:inline">{label}</span>
             </button>
           ))}
         </div>

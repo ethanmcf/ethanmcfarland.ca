@@ -184,7 +184,7 @@ export default function ExperienceFile() {
   ];
 
   return (
-    <div className="p-8 font-mono text-[13px] leading-5.5">
+    <div className="p-4 font-mono text-[13px] leading-5.5 sm:p-8">
       {lines.map((line, index) => (
         <div key={index} className="flex">
           <span className="mr-4 w-6 text-[13px] shrink-0 select-none text-right text-muted">

@@ -119,7 +119,7 @@ export default function ProjectFile() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl p-8">
+    <div className="mx-auto max-w-3xl p-4 sm:p-8">
       <h1 className="text-3xl font-bold text-white">{project.title}</h1>
       <p className="mt-2 text-lg text-muted">{project.oneLiner}</p>
 
@@ -153,7 +153,7 @@ export default function ProjectFile() {
         ))}
       </ul>
 
-      <div className="mt-8 flex gap-3">
+      <div className="mt-8 flex flex-wrap gap-3">
         {project.liveUrl && (
           <a
             href={project.liveUrl}

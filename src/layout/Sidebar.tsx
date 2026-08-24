@@ -37,7 +37,11 @@ function measureDefaultWidth(): number {
   );
 }
 
-export default function Sidebar() {
+export default function Sidebar({
+  onNavigate,
+}: {
+  onNavigate?: () => void;
+}) {
   const asideRef = useRef<HTMLElement>(null);
   const resizingRef = useRef(false);
   const [width, setWidth] = useState(measureDefaultWidth);
@@ -71,7 +75,7 @@ export default function Sidebar() {
     <aside
       ref={asideRef}
       style={{ width }}
-      className="relative flex h-full shrink-0 flex-col overflow-hidden border-r border-divider bg-chrome-sidebar text-muted selection:bg-transparent selection:text-inherit"
+      className="relative flex h-full max-w-[85vw] shrink-0 flex-col overflow-hidden border-r border-divider bg-chrome-sidebar text-muted selection:bg-transparent selection:text-inherit"
     >
       <h2 className="px-4 pt-4 pb-2 text-[11px] font-bold tracking-wide text-muted">
         EXPLORER
@@ -131,6 +135,7 @@ export default function Sidebar() {
                     <NavLink
                       key={file.path}
                       to={file.path}
+                      onClick={onNavigate}
                       className={({ isActive }) =>
                         `flex items-center gap-1.5 py-[3px] pr-2 pl-[3.25rem] text-[13px] whitespace-nowrap ${
                           isActive
@@ -155,6 +160,7 @@ export default function Sidebar() {
             <li key={file.path}>
               <NavLink
                 to={file.path}
+                onClick={onNavigate}
                 className={({ isActive }) =>
                   `flex items-center gap-1.5 py-[3px] pr-2 pl-6 text-[13px] whitespace-nowrap ${
                     isActive

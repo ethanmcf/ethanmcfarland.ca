@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TerminalTextarea from "./TerminalTextarea";
 
 type Step = "email" | "message" | "review" | "sending" | "sent" | "error";
 
@@ -185,10 +186,12 @@ function AnsweredPrompt({
 }) {
   if (!show) return null;
   return (
-    <p className="flex items-center gap-1.5">
-      <span className="text-terminal-arrow">✓</span>
-      <span className="text-text">{label}:</span>
-      <span className="text-terminal-muted">{value}</span>
+    <p className="flex items-start gap-1.5">
+      <span className="shrink-0 text-terminal-arrow">✓</span>
+      <span className="shrink-0 text-text">{label}:</span>
+      <span className="min-w-0 flex-1 break-words text-terminal-muted">
+        {value}
+      </span>
     </p>
   );
 }
@@ -209,22 +212,18 @@ function QuestionInput({
   error?: string;
 }) {
   return (
-    <form onSubmit={onSubmit} className="flex items-center gap-1.5">
-      <span className="text-accent">?</span>
-      <input
-        autoFocus
-        type="text"
-        inputMode={inputMode}
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        spellCheck={false}
-        size={Math.max((value || placeholder).length, 1)}
-        className={`bg-transparent font-mono text-[13px] text-text outline-none placeholder:text-terminal-muted ${
-          error ? "" : "flex-1"
-        }`}
-      />
-      {error && <span className="text-[12px] pl-4 text-error">{error}</span>}
+    <form onSubmit={onSubmit} className="flex flex-col gap-1">
+      <div className="flex items-start gap-1.5">
+        <span className="text-accent">?</span>
+        <TerminalTextarea
+          value={value}
+          onChange={onChange}
+          placeholder={placeholder}
+          inputMode={inputMode}
+          className="flex-1"
+        />
+      </div>
+      {error && <p className="pl-4 text-[12px] text-error">{error}</p>}
     </form>
   );
 }

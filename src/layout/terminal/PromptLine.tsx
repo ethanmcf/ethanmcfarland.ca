@@ -5,9 +5,12 @@ export default function PromptLine({ children }: { children?: ReactNode }) {
     <span className="flex flex-wrap items-center gap-1">
       <span className="text-terminal-arrow">➜</span>
       <span className="text-terminal-path">ethanmcfarland.ca</span>
-      <span className="text-terminal-muted">git:(</span>
-      <span className="text-terminal-branch">main</span>
-      <span className="text-terminal-muted">)</span>
+      <span>
+        <span className="text-terminal-muted">(</span>
+        <span className="text-terminal-branch">online</span>
+        <span className="text-terminal-muted">)</span>
+      </span>
+      <span className="text-terminal-muted pr-1">%</span>
       {children}
     </span>
   );

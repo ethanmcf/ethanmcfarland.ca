@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type SyntheticEvent } from "react";
 import PromptLine from "./PromptLine";
+import TerminalTextarea from "./TerminalTextarea";
 import { ABOUT_COMMANDS, type AboutCommand } from "../../data/aboutMe";
 
 interface HistoryEntry {
@@ -88,14 +89,12 @@ export default function AboutMeTab() {
         </div>
       ))}
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-1">
+      <form onSubmit={handleSubmit} className="flex items-start gap-1">
         <PromptLine />
-        <input
-          autoFocus
+        <TerminalTextarea
           value={input}
-          onChange={(event) => setInput(event.target.value)}
-          spellCheck={false}
-          className="flex-1 bg-transparent font-mono text-[13px] text-text outline-none"
+          onChange={setInput}
+          className="flex-1"
         />
       </form>
       <div ref={endRef} />
