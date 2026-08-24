@@ -91,11 +91,8 @@ export default function ActivityBar({
           pressed={sidebarOpen}
           onClick={onToggleSidebar}
         >
-          <FontAwesomeIcon icon={faFile} className="text-[30px]" />
+          <FontAwesomeIcon icon={faFile} className="text-[23px]" />
         </ActivityBarIcon>
-      </div>
-
-      <div className="mb-1">
         <ActivityBarIcon label="GitHub" href={SOCIAL_LINKS.github}>
           <FontAwesomeIcon icon={faGithub} className="text-[20px]" />
         </ActivityBarIcon>
@@ -105,6 +102,9 @@ export default function ActivityBar({
         <ActivityBarIcon label="Instagram" href={SOCIAL_LINKS.instagram}>
           <FontAwesomeIcon icon={faInstagram} className="text-[20px]" />
         </ActivityBarIcon>
+      </div>
+
+      <div className="mb-1">
         <button
           type="button"
           onClick={() => setPhotoOpen(true)}
