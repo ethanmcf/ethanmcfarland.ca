@@ -106,20 +106,30 @@ export const PROJECTS: Project[] = [
     githubUrl: "https://github.com/ethanmcf/LightKV/blob/main/report.md",
   },
   {
-    fileName: ".md",
-    path: "/projects/project-two",
-    title: "Project Two",
+    fileName: "UofT-Booking-Bot.md",
+    path: "/projects/uoft-booking-bot",
+    title: "UofT Booking Bot",
     oneLiner:
-      "A one-sentence description of what this project does and why it matters.",
-    techStack: ["Python", "FastAPI"],
-    metrics: { commits: 64, linesOfCode: 3200 },
+      "Automated desktop booking tool for University of Toronto recreational activities.",
+    techStack: ["Python", "SQLite", "Playwright", "PyQt"],
+    metrics: { commits: 118, linesOfCode: 7000 },
     media: [
-      { type: "image", src: null, caption: "Screenshot 1" },
-      { type: "image", src: null, caption: "Screenshot 2" },
+      {
+        type: "video",
+        src: "/projects/uoft-booking-bot/demo-video.mp4",
+        caption: "Demo Video",
+      },
     ],
     about:
-      "Describe the problem this project solves, who it's for, and the approach you took to build it.",
-    features: ["Describe a key feature.", "Describe another key feature."],
-    githubUrl: "https://github.com/ethanmcf/project-two",
+      "UofT Booking Bot is a Playwright web scraping application featuring a PyQt6 desktop GUI designed to secure high-demand golf slots at the University of Toronto. The system integrates SQLite and native OS schedulers to automate registrations at exact intervals, consistently securing reservations in under two seconds.",
+    features: [
+      "Automated booking scheduling executed at precise time intervals",
+      "Captcha bypassing to maintain uninterrupted registration flows",
+      "Dynamic retry logic to handle server lag during peak demand",
+      "Desktop GUI built with PyQt6 for accessible user configuration",
+      "Local SQLite database integration for reliable session management",
+    ],
+    githubUrl: "https://github.com/ethanmcf/UofTBookingBot",
+    liveUrl: "",
   },
 ];
