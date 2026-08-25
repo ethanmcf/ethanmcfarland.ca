@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import TerminalTextarea from "./TerminalTextarea";
+import { sendContactEmail } from "../../actions/send-email";
 
 type Step = "email" | "message" | "review" | "sending" | "sent" | "error";
 
-const SEND_FAILURE_RATE = 0.2;
-
-const LOADING_TICKS = 24;
-const LOADING_INTERVAL_MS = 110;
+const BAR_WIDTH = 24;
+const TICK_INTERVAL_MS = 110;
 const SPINNER_FRAMES = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,29 +14,50 @@ export default function ContactMeTab() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [draft, setDraft] = useState("");
-  const [loadingTick, setLoadingTick] = useState(0);
   const [emailError, setEmailError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const [sendError, setSendError] = useState("");
+  const [tick, setTick] = useState(0);
 
   useEffect(() => {
-    if (step !== "sending") return;
-    if (loadingTick >= LOADING_TICKS) {
-      setStep(Math.random() < SEND_FAILURE_RATE ? "error" : "sent");
-      return;
-    }
+    if (!submitting) return;
     const timeout = setTimeout(
-      () => setLoadingTick((prev) => prev + 1),
-      LOADING_INTERVAL_MS,
+      () => setTick((prev) => prev + 1),
+      TICK_INTERVAL_MS,
     );
     return () => clearTimeout(timeout);
-  }, [step, loadingTick]);
+  }, [submitting, tick]);
 
   function resetForm() {
     setEmail("");
     setMessage("");
     setDraft("");
-    setLoadingTick(0);
     setEmailError("");
+    setSendError("");
     setStep("email");
+  }
+
+  async function trySend() {
+    if (submitting) return;
+    setSubmitting(true);
+    setSendError("");
+    setTick(0);
+    setStep("sending");
+
+    try {
+      await sendContactEmail({ email, message });
+      setStep("sent");
+    } catch (err) {
+      const reason = err instanceof Error ? err.message : "";
+      setSendError(
+        reason === "rate_limited"
+          ? "You've sent too many messages. Please try again in an hour."
+          : "There was an issue sending your message. Please try again in a bit.",
+      );
+      setStep("error");
+    } finally {
+      setSubmitting(false);
+    }
   }
 
   function handleSubmit(event: React.FormEvent) {
@@ -60,8 +80,7 @@ export default function ContactMeTab() {
       setDraft("");
       setStep("review");
     } else if (step === "review") {
-      setLoadingTick(0);
-      setStep("sending");
+      trySend();
     }
   }
 
@@ -122,10 +141,9 @@ export default function ContactMeTab() {
       {step === "sending" && (
         <p className="text-text">
           <span className="whitespace-pre">
-            {SPINNER_FRAMES[loadingTick % SPINNER_FRAMES.length]} [
-            {"█".repeat(loadingTick)}
-            {"░".repeat(LOADING_TICKS - loadingTick)}]{" "}
-            {Math.round((loadingTick / LOADING_TICKS) * 100)}%
+            {SPINNER_FRAMES[tick % SPINNER_FRAMES.length]} [
+            {"█".repeat(tick % BAR_WIDTH)}
+            {"░".repeat(BAR_WIDTH - (tick % BAR_WIDTH))}]
           </span>{" "}
           sending message…
         </p>
@@ -158,10 +176,7 @@ export default function ContactMeTab() {
           }}
           className="flex flex-col gap-1"
         >
-          <p className="text-error">
-            ✕ There was an issue sending your message — please try again in a
-            bit.
-          </p>
+          <p className="text-error">✕ {sendError}</p>
           <button
             type="submit"
             autoFocus
