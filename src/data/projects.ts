@@ -130,6 +130,6 @@ export const PROJECTS: Project[] = [
       "Local SQLite database integration for reliable session management",
     ],
     githubUrl: "https://github.com/ethanmcf/UofTBookingBot",
-    liveUrl: "",
+    docsUrl: "http://ethanmcf.github.io/UofTBookingBot/",
   },
 ];
