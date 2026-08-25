@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import ActivityBar from "./ActivityBar";
+import Breadcrumb from "./Breadcrumb";
 import Sidebar from "./Sidebar";
 import Tabs from "./Tabs";
 import Terminal from "./Terminal";
@@ -59,6 +60,7 @@ export default function Layout() {
 
       <div className="flex min-w-0 flex-1 flex-col">
         <Tabs />
+        <Breadcrumb />
         <main className="flex-1 overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-none [&::-webkit-scrollbar-thumb]:bg-overlay-mid [&::-webkit-scrollbar-thumb:hover]:bg-overlay-soft">
           <Outlet />
         </main>
