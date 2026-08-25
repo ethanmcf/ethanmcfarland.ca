@@ -6,28 +6,42 @@ interface CodeLine {
   content: ReactNode;
 }
 
-type TagVariant = "container" | "subtag";
+type TagColor =
+  | "wrapper"
+  | "leaf"
+  | "timeline"
+  | "metrics"
+  | "scholarships"
+  | "awards"
+  | "coursework"
+  | "extracurriculars";
 
-const TAG_COLOR: Record<TagVariant, string> = {
-  container: "text-code-class",
-  subtag: "text-code-subtag",
+const TAG_COLOR: Record<TagColor, string> = {
+  wrapper: "text-code-class",
+  leaf: "text-code-subtag",
+  timeline: "text-code-keyword",
+  metrics: "text-code-brace",
+  scholarships: "text-code-bracket",
+  awards: "text-code-string",
+  coursework: "text-code-teal",
+  extracurriculars: "text-code-number",
 };
 
-function OpenTag({ tag, variant = "subtag" }: { tag: string; variant?: TagVariant }) {
+function OpenTag({ tag, color = "leaf" }: { tag: string; color?: TagColor }) {
   return (
     <>
       <span className="text-code-class">{"<"}</span>
-      <span className={TAG_COLOR[variant]}>{tag}</span>
+      <span className={TAG_COLOR[color]}>{tag}</span>
       <span className="text-code-class">{">"}</span>
     </>
   );
 }
 
-function CloseTag({ tag, variant = "subtag" }: { tag: string; variant?: TagVariant }) {
+function CloseTag({ tag, color = "leaf" }: { tag: string; color?: TagColor }) {
   return (
     <>
       <span className="text-code-class">{"</"}</span>
-      <span className={TAG_COLOR[variant]}>{tag}</span>
+      <span className={TAG_COLOR[color]}>{tag}</span>
       <span className="text-code-class">{">"}</span>
     </>
   );
@@ -36,77 +50,114 @@ function CloseTag({ tag, variant = "subtag" }: { tag: string; variant?: TagVaria
 function leaf(
   tag: string,
   value: string,
+  color: TagColor = "leaf",
   valueClassName = "text-content",
 ): ReactNode {
   return (
     <>
-      <OpenTag tag={tag} />
+      <OpenTag tag={tag} color={color} />
       <span className={valueClassName}>{value}</span>
-      <CloseTag tag={tag} />
+      <CloseTag tag={tag} color={color} />
     </>
   );
 }
 
 export default function Education() {
   const lines: CodeLine[] = [
-    { indent: 0, content: <OpenTag tag="education" variant="container" /> },
+    { indent: 0, content: <OpenTag tag="education" color="wrapper" /> },
     { indent: 1, content: leaf("institution", EDUCATION.institution) },
     { indent: 1, content: leaf("program", EDUCATION.program) },
     { indent: 1, content: null },
-    { indent: 1, content: <OpenTag tag="timeline" variant="container" /> },
-    { indent: 2, content: leaf("start-date", EDUCATION.startDate) },
+    { indent: 1, content: <OpenTag tag="timeline" color="timeline" /> },
     {
       indent: 2,
-      content: leaf("expected-graduation", EDUCATION.expectedGraduation),
+      content: leaf("start-date", EDUCATION.startDate, "timeline"),
     },
-    { indent: 1, content: <CloseTag tag="timeline" variant="container" /> },
-    { indent: 1, content: null },
-    { indent: 1, content: <OpenTag tag="metrics" variant="container" /> },
-    { indent: 2, content: leaf("gpa", EDUCATION.gpa, "text-code-number") },
-    { indent: 1, content: <CloseTag tag="metrics" variant="container" /> },
-    { indent: 1, content: null },
-    { indent: 1, content: <OpenTag tag="scholarships" variant="container" /> },
-    ...EDUCATION.scholarships.map((scholarship) => ({
+    {
       indent: 2,
-      content: leaf("scholarship", scholarship),
-    })),
-    { indent: 1, content: <CloseTag tag="scholarships" variant="container" /> },
+      content: leaf(
+        "expected-graduation",
+        EDUCATION.expectedGraduation,
+        "timeline",
+      ),
+    },
+    { indent: 1, content: <CloseTag tag="timeline" color="timeline" /> },
     { indent: 1, content: null },
-    { indent: 1, content: <OpenTag tag="awards" variant="container" /> },
-    ...EDUCATION.awards.map((award) => ({
+    { indent: 1, content: <OpenTag tag="metrics" color="metrics" /> },
+    {
       indent: 2,
-      content: leaf("award", award),
-    })),
-    { indent: 1, content: <CloseTag tag="awards" variant="container" /> },
+      content: leaf("gpa", EDUCATION.gpa, "metrics", "text-code-number"),
+    },
+    { indent: 1, content: <CloseTag tag="metrics" color="metrics" /> },
     { indent: 1, content: null },
     {
       indent: 1,
-      content: <OpenTag tag="relevant-coursework" variant="container" />,
+      content: <OpenTag tag="scholarships" color="scholarships" />,
+    },
+    ...EDUCATION.scholarships.map((scholarship) => ({
+      indent: 2,
+      content: leaf("scholarship", scholarship, "scholarships"),
+    })),
+    {
+      indent: 1,
+      content: <CloseTag tag="scholarships" color="scholarships" />,
+    },
+    { indent: 1, content: null },
+    { indent: 1, content: <OpenTag tag="awards" color="awards" /> },
+    ...EDUCATION.awards.map((award) => ({
+      indent: 2,
+      content: leaf("award", award, "awards"),
+    })),
+    { indent: 1, content: <CloseTag tag="awards" color="awards" /> },
+    { indent: 1, content: null },
+    {
+      indent: 1,
+      content: <OpenTag tag="relevant-coursework" color="coursework" />,
     },
     ...EDUCATION.coursework.map((course) => ({
       indent: 2,
-      content: leaf("course", course),
+      content: leaf("course", course, "coursework"),
     })),
     {
       indent: 1,
-      content: <CloseTag tag="relevant-coursework" variant="container" />,
+      content: <CloseTag tag="relevant-coursework" color="coursework" />,
     },
     { indent: 1, content: null },
     {
       indent: 1,
-      content: <OpenTag tag="extracurriculars" variant="container" />,
+      content: (
+        <OpenTag tag="extracurriculars" color="extracurriculars" />
+      ),
     },
     ...EDUCATION.extracurriculars.flatMap((activity) => [
-      { indent: 2, content: <OpenTag tag="activity" variant="container" /> },
-      { indent: 3, content: leaf("organization", activity.organization) },
-      { indent: 3, content: leaf("role", activity.role) },
-      { indent: 2, content: <CloseTag tag="activity" variant="container" /> },
+      {
+        indent: 2,
+        content: <OpenTag tag="activity" color="extracurriculars" />,
+      },
+      {
+        indent: 3,
+        content: leaf(
+          "organization",
+          activity.organization,
+          "extracurriculars",
+        ),
+      },
+      {
+        indent: 3,
+        content: leaf("role", activity.role, "extracurriculars"),
+      },
+      {
+        indent: 2,
+        content: <CloseTag tag="activity" color="extracurriculars" />,
+      },
     ]),
     {
       indent: 1,
-      content: <CloseTag tag="extracurriculars" variant="container" />,
+      content: (
+        <CloseTag tag="extracurriculars" color="extracurriculars" />
+      ),
     },
-    { indent: 0, content: <CloseTag tag="education" variant="container" /> },
+    { indent: 0, content: <CloseTag tag="education" color="wrapper" /> },
   ];
 
   return (
