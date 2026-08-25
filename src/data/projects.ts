@@ -65,7 +65,48 @@ export const PROJECTS: Project[] = [
     docsUrl: "https://jerc-beta.pages.dev/",
   },
   {
-    fileName: "ProjectTwo.md",
+    fileName: "LightKV.md",
+    path: "/projects/lightkv",
+    title: "LightKV",
+    oneLiner:
+      "LightKV is a custom, lightweight database engine built from scratch in C++.",
+    techStack: ["C++", "POSIX", "Caching", "Database Architecture"],
+    metrics: { commits: 74, linesOfCode: 9000 },
+    media: [
+      {
+        type: "image",
+        src: "/projects/lightkv/get-throughput-results.png",
+        caption: "Get Throughput Results",
+      },
+      {
+        type: "image",
+        src: "/projects/lightkv/insert-throughput-results.png",
+        caption: "Insert Throughput Results",
+      },
+      {
+        type: "image",
+        src: "/projects/lightkv/scan-throughput-results.png",
+        caption: "Scan Throughput Results",
+      },
+      {
+        type: "image",
+        src: "/projects/lightkv/scan-throughput-fixed-results.png",
+        caption: "Scan Throughput Fix Keys Results",
+      },
+    ],
+    about:
+      "The system utilizes a Log-Structured Merge (LSM) tree architecture to handle datasets larger than available memory through an optimized disk-based storage system. It uses an in-memory memtable backed by a red-black tree for rapid writes, which automatically flushes data into Sorted String Table (SST) files on disk. Performance is accelerated through a dynamic buffer pool and Bloom filters that actively reduce unnecessary disk I/O.",
+    features: [
+      "Core database API supporting open, put, get, scan, and delete operations",
+      "Red-black tree memtable that processes standard operations and automatically flushes to SSTs at capacity",
+      "Integrated Bloom filters to efficiently skip non-existent keys and reduce unnecessary disk reads",
+      "Dynamic buffer pool utilizing an extendible hash table and clock eviction for efficient page caching",
+      "Dostoevsky LSM compaction policy using min-heap multi-way merging to efficiently handle cascading file merges",
+    ],
+    githubUrl: "https://github.com/ethanmcf/LightKV/blob/main/report.md",
+  },
+  {
+    fileName: ".md",
     path: "/projects/project-two",
     title: "Project Two",
     oneLiner:
