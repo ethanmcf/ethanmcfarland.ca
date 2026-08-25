@@ -29,7 +29,7 @@ export const EXPERIENCE_FILE: Record<string, RoleDetails> = {
   },
   "/experience/software-developer_2024": {
     role: "SoftwareDeveloperIntern",
-    company: "Scoitabank",
+    company: "Scotiabank",
     season: "Summer",
     year: "2024",
     location: "Toronto, ON",

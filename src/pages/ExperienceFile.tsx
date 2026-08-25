@@ -7,6 +7,15 @@ interface CodeLine {
   content: ReactNode;
 }
 
+const COMPANY_COLOR: Record<string, string> = {
+  Scotiabank: "text-code-red",
+  Tangerine: "text-code-orange",
+};
+
+function companyColor(company: string): string {
+  return COMPANY_COLOR[company] ?? "text-content";
+}
+
 export default function ExperienceFile() {
   const { slug } = useParams<{ slug: string }>();
   const path = `/experience/${slug}`;
@@ -50,20 +59,6 @@ export default function ExperienceFile() {
         </>
       ),
     },
-    {
-      indent: 0,
-      content: (
-        <>
-          <span className="text-code-keyword">import</span>{" "}
-          <span className="text-code-brace">{"{"}</span>{" "}
-          <span className="text-content">{details.company}</span>{" "}
-          <span className="text-code-brace">{"}"}</span>{" "}
-          <span className="text-code-keyword">from</span>{" "}
-          <span className="text-code-string">"@employers"</span>
-          <span className="text-code-punct">;</span>
-        </>
-      ),
-    },
     { indent: 0, content: null },
     {
       indent: 0,
@@ -81,7 +76,9 @@ export default function ExperienceFile() {
         <>
           <span className="text-content">company</span>
           <span className="text-code-punct"> = </span>
-          <span className="text-content">{details.company}</span>
+          <span className={companyColor(details.company)}>
+            {details.company}
+          </span>
           <span className="text-code-punct">;</span>
         </>
       ),
