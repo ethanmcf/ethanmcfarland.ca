@@ -238,7 +238,9 @@ function QuestionInput({
           className="flex-1"
         />
       </div>
-      {error && <p className="pl-4 text-[12px] text-error">{error}</p>}
+      {error && (
+        <p className="pl-4 text-base text-error md:text-[12px]">{error}</p>
+      )}
     </form>
   );
 }

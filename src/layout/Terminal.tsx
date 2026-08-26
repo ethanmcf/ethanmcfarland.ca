@@ -109,7 +109,7 @@ export default function Terminal() {
       {open && (
         <div
           style={isMobile ? undefined : { height }}
-          className={`overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+          className={`overflow-y-auto px-4 py-2 font-mono text-base leading-6 md:text-[13px] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
             isMobile ? "flex-1" : ""
           }`}
         >

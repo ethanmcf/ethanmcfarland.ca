@@ -38,7 +38,7 @@ export default function TerminalTextarea({
       }}
       placeholder={placeholder}
       spellCheck={false}
-      className={`resize-none overflow-hidden bg-transparent font-mono text-[13px] leading-6 text-text outline-none placeholder:text-terminal-muted ${className}`}
+      className={`resize-none overflow-hidden bg-transparent font-mono text-base leading-6 text-text outline-none placeholder:text-terminal-muted md:text-[13px] ${className}`}
     />
   );
 }
