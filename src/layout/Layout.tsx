@@ -25,7 +25,7 @@ export default function Layout() {
   }, [isMobile, sidebarOpen]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-panel font-sans text-text">
+    <div className="flex h-dvh w-screen overflow-hidden bg-panel font-sans text-text">
       <ActivityBar
         sidebarOpen={sidebarOpen}
         onToggleSidebar={() => setSidebarOpen((prev) => !prev)}

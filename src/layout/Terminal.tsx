@@ -52,7 +52,7 @@ export default function Terminal() {
       ref={containerRef}
       className={`flex flex-col border-t border-divider bg-panel text-text ${
         isMobile && open
-          ? "fixed inset-y-0 right-0 left-12 z-50"
+          ? "fixed top-0 right-0 left-12 z-50 h-dvh"
           : "relative shrink-0"
       }`}
     >
