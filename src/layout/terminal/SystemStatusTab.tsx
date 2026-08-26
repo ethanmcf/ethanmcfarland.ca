@@ -89,18 +89,21 @@ export default function SystemStatusTab() {
     <div className="flex flex-col gap-0.5">
       <p className="text-text">&gt; ./run_system_diagnostics.sh</p>
 
-      <div className="mt-1 flex flex-col">
+      <div className="mt-1 flex flex-col overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {lines.slice(0, revealCount).map((line, index) => (
-          <p key={index} className={line.spaceBefore ? "mt-2" : undefined}>
+          <div
+            key={index}
+            className={`flex w-max items-baseline gap-1 whitespace-pre ${line.spaceBefore ? "mt-2" : ""}`}
+          >
             <span
-              className={
+              className={`shrink-0 text-[13px] ${
                 line.tag === "OK" ? "text-terminal-arrow" : "text-terminal-path"
-              }
+              }`}
             >
               [{line.tag === "OK" ? "  OK  " : " INFO "}]
-            </span>{" "}
+            </span>
             <span className="text-text">{line.text}</span>
-          </p>
+          </div>
         ))}
       </div>
 

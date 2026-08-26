@@ -29,6 +29,12 @@ export default function Terminal() {
   }, [isMobile]);
 
   useEffect(() => {
+    if (isMobile && activeTab === "system") setActiveTab("contact");
+  }, [isMobile, activeTab]);
+
+  const tabs = isMobile ? TABS.filter((tab) => tab.id !== "system") : TABS;
+
+  useEffect(() => {
     function handleMouseMove(event: MouseEvent) {
       if (!resizingRef.current || !containerRef.current) return;
       const bottom = containerRef.current.getBoundingClientRect().bottom;
@@ -70,7 +76,7 @@ export default function Terminal() {
         className="flex h-9 min-w-0 shrink-0 items-center justify-between pr-2"
       >
         <div className="flex h-full min-w-0 items-center overflow-x-auto text-[11px] font-medium tracking-wide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {TABS.map(({ id, label, icon: Icon }) => (
+          {tabs.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               type="button"
