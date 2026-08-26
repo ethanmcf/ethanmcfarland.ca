@@ -36,9 +36,9 @@ export default function Layout() {
           <>
             <div
               onClick={() => setSidebarOpen(false)}
-              className="fixed inset-0 z-30 bg-panel/70"
+              className="fixed inset-0 z-[60] bg-panel/70"
             />
-            <div className="fixed inset-y-0 left-12 z-40">
+            <div className="fixed inset-y-0 left-12 z-[70]">
               <Sidebar onNavigate={() => setSidebarOpen(false)} />
             </div>
           </>
