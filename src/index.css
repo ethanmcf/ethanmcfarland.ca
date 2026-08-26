@@ -38,3 +38,55 @@
   --color-code-red: #e06c75;
   --color-code-orange: #ff8b3d;
 }
+
+@keyframes loading-logo-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+    filter: drop-shadow(0 0 0 rgb(126 188 251 / 0%));
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.12);
+    filter: drop-shadow(0 0 26px rgb(126 188 251 / 75%));
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 14px rgb(126 188 251 / 55%));
+  }
+}
+
+@keyframes loading-glow-pulse {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  55% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+@keyframes loading-bar-fill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes loading-cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
