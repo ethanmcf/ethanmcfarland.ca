@@ -89,12 +89,15 @@ export default function AboutMeTab() {
         </div>
       ))}
 
-      <form onSubmit={handleSubmit} className="flex items-start gap-1">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-start gap-1 md:flex-row"
+      >
         <PromptLine />
         <TerminalTextarea
           value={input}
           onChange={setInput}
-          className="flex-1"
+          className="w-full flex-1"
         />
       </form>
       <div ref={endRef} />
