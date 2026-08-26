@@ -3,6 +3,7 @@ import { Activity, Bot, ChevronDown, ChevronUp, Mail } from "lucide-react";
 import ContactMeTab from "./terminal/ContactMeTab";
 import AboutMeTab from "./terminal/AboutMeTab";
 import SystemStatusTab from "./terminal/SystemStatusTab";
+import { useIsMobile } from "../utils/useIsMobile";
 
 const MIN_HEIGHT = 120;
 const MAX_HEIGHT = 560;
@@ -18,9 +19,14 @@ const TABS: { id: TabId; label: string; icon: typeof Mail }[] = [
 export default function Terminal() {
   const containerRef = useRef<HTMLDivElement>(null);
   const resizingRef = useRef(false);
-  const [open, setOpen] = useState(true);
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(() => !isMobile);
   const [height, setHeight] = useState(224);
   const [activeTab, setActiveTab] = useState<TabId>("contact");
+
+  useEffect(() => {
+    if (isMobile) setOpen(false);
+  }, [isMobile]);
 
   useEffect(() => {
     function handleMouseMove(event: MouseEvent) {
@@ -44,9 +50,13 @@ export default function Terminal() {
   return (
     <div
       ref={containerRef}
-      className="relative flex shrink-0 flex-col border-t border-divider bg-panel text-text"
+      className={`flex flex-col border-t border-divider bg-panel text-text ${
+        isMobile && open
+          ? "fixed inset-y-0 right-0 left-12 z-50"
+          : "relative shrink-0"
+      }`}
     >
-      {open && (
+      {open && !isMobile && (
         <div
           onMouseDown={() => {
             resizingRef.current = true;
@@ -55,13 +65,20 @@ export default function Terminal() {
         />
       )}
 
-      <div className="flex h-9 min-w-0 shrink-0 items-center justify-between pr-2">
+      <div
+        onClick={isMobile ? () => setOpen((prev) => !prev) : undefined}
+        className="flex h-9 min-w-0 shrink-0 items-center justify-between pr-2"
+      >
         <div className="flex h-full min-w-0 items-center overflow-x-auto text-[11px] font-medium tracking-wide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {TABS.map(({ id, label, icon: Icon }) => (
             <button
               key={id}
               type="button"
-              onClick={() => setActiveTab(id)}
+              onClick={(event) => {
+                event.stopPropagation();
+                setActiveTab(id);
+                if (isMobile) setOpen(true);
+              }}
               title={label}
               className={`flex h-full shrink-0 cursor-pointer items-center gap-1.5 border-b-2 px-3 ${
                 activeTab === id
@@ -77,7 +94,10 @@ export default function Terminal() {
 
         <button
           type="button"
-          onClick={() => setOpen((prev) => !prev)}
+          onClick={(event) => {
+            event.stopPropagation();
+            setOpen((prev) => !prev);
+          }}
           title={open ? "Collapse panel" : "Expand panel"}
           aria-expanded={open}
           className="flex h-6 w-6 items-center justify-center text-text hover:text-white"
@@ -88,8 +108,10 @@ export default function Terminal() {
 
       {open && (
         <div
-          style={{ height }}
-          className="overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={isMobile ? undefined : { height }}
+          className={`overflow-y-auto px-4 py-2 font-mono text-[13px] leading-6 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${
+            isMobile ? "flex-1" : ""
+          }`}
         >
           {activeTab === "contact" && <ContactMeTab />}
           {activeTab === "about" && <AboutMeTab />}

@@ -5,26 +5,15 @@ import Breadcrumb from "./Breadcrumb";
 import Sidebar from "./Sidebar";
 import Tabs from "./Tabs";
 import Terminal from "./Terminal";
-
-const MOBILE_QUERY = "(max-width: 767px)";
-
-function matchesMobile() {
-  return typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches;
-}
+import { matchesMobile, useIsMobile } from "../utils/useIsMobile";
 
 export default function Layout() {
-  const [isMobile, setIsMobile] = useState(matchesMobile);
+  const isMobile = useIsMobile();
   const [sidebarOpen, setSidebarOpen] = useState(() => !matchesMobile());
 
   useEffect(() => {
-    const mql = window.matchMedia(MOBILE_QUERY);
-    function handleChange(event: MediaQueryListEvent) {
-      setIsMobile(event.matches);
-      setSidebarOpen(!event.matches);
-    }
-    mql.addEventListener("change", handleChange);
-    return () => mql.removeEventListener("change", handleChange);
-  }, []);
+    setSidebarOpen(!isMobile);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!isMobile || !sidebarOpen) return;
