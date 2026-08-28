@@ -132,4 +132,101 @@ export const PROJECTS: Project[] = [
     githubUrl: "https://github.com/ethanmcf/UofTBookingBot",
     docsUrl: "http://ethanmcf.github.io/UofTBookingBot/",
   },
+  {
+    fileName: "Notion-Network-Sync.md",
+    path: "/projects/notion-network-sync",
+    title: "Notion Network Sync",
+    oneLiner:
+      "An automated system that extracts LinkedIn messages, enriches them using AI, and syncs the data directly into a Notion database.",
+    techStack: [
+      "Kubernetes",
+      "Cronjob",
+      "SQLite",
+      "Playwright",
+      "Python",
+      "Notion API",
+      "OpenAI API",
+      "Docker",
+    ],
+    metrics: { commits: 19, linesOfCode: 2400 },
+    media: [
+      {
+        type: "image",
+        src: "/projects/notion-network-sync/NotionDB.jpg",
+        caption: "DB",
+      },
+    ],
+    about:
+      "Notion Network Sync is an automated, scalable Python monorepo that containerizes two independent services to synchronize and enrich professional communications. Utilizing Docker and Kubernetes CronJobs, the system extracts recent LinkedIn messages via Playwright, tracks state with SQLite, and enriches the notes using the OpenAI GPT API before securely updating corresponding Notion database contact pages.",
+    features: [
+      "Automated LinkedIn message extraction leveraging Playwright to parse recent communications",
+      "Containerized microservices architecture built with Docker for seamless and scalable deployment",
+      "Continuous Notion database polling to detect page updates using last-modified timestamps",
+      "Natural language formatting and context enrichment powered by the OpenAI GPT API",
+      "Scheduled, hands-off execution managed by Kubernetes CronJobs for reliable synchronization",
+    ],
+    githubUrl: "https://github.com/ethanmcf/Notion-Network-Sync",
+  },
+  {
+    fileName: "Express-Hockey-Development.md",
+    path: "/projects/Express-Hockey-Development",
+    title: "Express Hockey Development",
+    oneLiner: "Registration and payment platform for hockey training programs.",
+    techStack: ["React", "TypeScript", "Cloud Functions", "Firebase", "Stripe"],
+    metrics: { commits: 67, linesOfCode: 14000 },
+    media: [
+      {
+        type: "video",
+        src: "/projects/express-hockey-dev/site-demo.mov",
+        caption: "Demo Video",
+      },
+      {
+        type: "video",
+        src: "/projects/express-hockey-dev/admin-demo.mov",
+        caption: "Admin Demo Video",
+      },
+      {
+        type: "image",
+        src: "/projects/express-hockey-dev/email.png",
+        caption: "Email Example",
+      },
+    ],
+    about:
+      "Express Hockey Development is a full-stack web application designed to manage registrations and payments for hockey training programs. Built with React and TypeScript, the platform allows parents to seamlessly register skaters and pay via Stripe, while providing administrators with a secure, serverless Firebase dashboard to manage sessions, users, and capacity.",
+    features: [
+      "Secure checkout flow powered by Stripe PaymentIntents and Firebase Cloud Functions",
+      "Protected admin dashboard managed via Firebase Auth custom claims for secure CRUD operations",
+      "Automated soft-hold reservation system with scheduled cleanup functions to prevent overbooking",
+      "Automated email confirmations and capacity alerts triggered by Resend and Stripe webhooks",
+    ],
+    githubUrl: "https://github.com/Emac-Software/ExpressHockeyDev",
+    liveUrl: "http://expresshockeydevelopment.com/",
+  },
+  // {
+  //   fileName: "ULA-Healthcare.md",
+  //   path: "/projects/ula-healthcare",
+  //   title: "ULA Healthcare",
+  //   oneLiner:
+  //     "Automated desktop booking tool for University of Toronto recreational activities.",
+  //   techStack: ["Python", "SQLite", "Playwright", "PyQt"],
+  //   metrics: { commits: 118, linesOfCode: 7000 },
+  //   media: [
+  //     {
+  //       type: "video",
+  //       src: "/projects/uoft-booking-bot/demo-video.mp4",
+  //       caption: "Demo Video",
+  //     },
+  //   ],
+  //   about:
+  //     "UofT Booking Bot is a Playwright web scraping application featuring a PyQt6 desktop GUI designed to secure high-demand golf slots at the University of Toronto. The system integrates SQLite and native OS schedulers to automate registrations at exact intervals, consistently securing reservations in under two seconds.",
+  //   features: [
+  //     "Automated booking scheduling executed at precise time intervals",
+  //     "Captcha bypassing to maintain uninterrupted registration flows",
+  //     "Dynamic retry logic to handle server lag during peak demand",
+  //     "Desktop GUI built with PyQt6 for accessible user configuration",
+  //     "Local SQLite database integration for reliable session management",
+  //   ],
+  //   githubUrl: "https://github.com/ethanmcf/UofTBookingBot",
+  //   docsUrl: "http://ethanmcf.github.io/UofTBookingBot/",
+  // },
 ];
